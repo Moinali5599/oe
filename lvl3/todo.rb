@@ -23,13 +23,13 @@ class Todo
     if @due_date == Date.today
       if @completed == true
         mark_complete = "[x] "
-        displayable_todo = mark_complete + "#{@todo} " + "#{@due_date}"
+        displayable_todo = mark_complete + "#{@todo}"
       else
         mark_not_complete = "[ ] "
         displayable_todo = mark_not_complete + "#{@todo}"
       end
     else
-      return "[ ] " + @todo
+      return "[ ] " + @todo + " #{@due_date}"
     end
   end
 end
