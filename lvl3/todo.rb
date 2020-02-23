@@ -1,30 +1,37 @@
 require "date"
 
 class Todo
+  def initialize(todo, due_date, completed)
+    @todo = todo
+    @due_date = due_date
+    @completed = completed
+  end
 
- def initialize(todo, due_date, completed)
-  @todo = text
-  @due_date = due_date
-  @completed = completed
- end
+  def overdue?
+    @due_date < Date.today
+  end
 
- def overdue?
-  @due_date < Date.today
- end
+  def due_today?
+    @due_date == Date.today
+  end
 
- def due_today?
-  @due_date == Date.today
- end
+  def due_later?
+    @due_date > Date.today
+  end
 
- def due_later?
-  @due_date > Date.today
- end
-
- def to_displayable_string
-  display_completed = ((@completed)?("[x]"):("[]"))
-  display_date = (@due_date != Date.today)? (""):(@due_date.to_s)
-"#{display_completed} #{@todo} #{display_date}"
- end
+  def to_displayable_string
+    if @due_date == Date.today
+      if @completed == true
+        mark_complete = "[x] "
+        displayable_todo = mark_complete + "#{@todo} " + "#{@due_date}"
+      else
+        mark_not_complete = "[ ] "
+        displayable_todo = mark_not_complete + "#{@todo}"
+      end
+    else
+      return "[ ] " + @todo
+    end
+  end
 end
 
 class TodosList
@@ -49,9 +56,7 @@ class TodosList
   end
 
   def to_displayable_list
-    todo_list=[]
-    todo_list= @todos.map { |todo| todo.to_displayable_string }
-    return todo_list.join("\n")
+    @todos.map { |todo| todo.to_displayable_string }.join("\n")
   end
 end
 
